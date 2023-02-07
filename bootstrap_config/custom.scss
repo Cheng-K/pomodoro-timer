@@ -1,0 +1,36 @@
+// Custom.scss
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+$primary: #f1faee;
+$secondary: #a8dadc;
+$danger: #e63946;
+$dark: #212121;
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../node_modules/bootstrap/scss/variables";
+
+// 4. Include any default map overrides here
+$custom-colors: (
+  "accent-red": #e63946,
+  "accent-dark-blue": #1d3557,
+  "light-black": #383838,
+  "dark-black": #212121,
+  "white": #f5f5f5,
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// 5. Include remainder of required parts
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// 8. Add additional custom code here
