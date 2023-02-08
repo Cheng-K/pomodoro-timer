@@ -1,11 +1,18 @@
 import "./styles/App.scss";
+import Stack from "react-bootstrap/Stack";
 import Header from "./components/Header";
+import Timer from "./components/Timer";
+import ControlButton from "./components/controls/ControlButtons";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="container-fluid bg-primary">
+    <Stack className="vw-100 vh-100 bg-primary">
       <Header />
-    </div>
+      <Timer />
+      <ControlButton />
+      <Footer />
+    </Stack>
   );
 }
 
