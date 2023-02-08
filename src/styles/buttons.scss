@@ -1,0 +1,23 @@
+@import "../../bootstrap_config/custom.scss";
+
+.control-button-large {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.icon-large {
+  min-width: 4.5rem;
+  min-height: 4.5rem;
+  color: map-get($theme-colors, "accent-dark-blue");
+}
+
+.icon {
+  min-width: 3rem;
+  min-height: 3rem;
+  color: map-get($theme-colors, "accent-dark-blue");
+}
+
+.control-button {
+  width: 4rem;
+  height: 4rem;
+}
