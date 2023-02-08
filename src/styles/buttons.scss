@@ -21,3 +21,21 @@
   width: 4rem;
   height: 4rem;
 }
+
+.flip {
+  transform: scaleX(-1);
+}
+
+.control-button-small {
+  width: 3rem;
+  height: 3rem;
+}
+
+.icon-small {
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.icon-black {
+  color: map-get($theme-colors, "dark-black");
+}

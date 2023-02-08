@@ -17,8 +17,8 @@ function ControlButton() {
         className="d-flex justify-content-around align-items-end flex-grow-0"
       >
         <StopButton className="mx-3" />
-        <PauseButton className="mx-3" />
-        <SkipButton className="mx-3" />
+        <PlayButton className="mx-3" />
+        <RestartButton className="mx-3 flip" />
       </ButtonGroup>
     </Container>
   );
