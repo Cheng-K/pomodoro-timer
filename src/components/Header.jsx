@@ -7,20 +7,14 @@ import { MdSettings, MdMenu } from "react-icons/md";
 function Header() {
   return (
     <Container fluid>
-      <Row>
-        <Col
-          className="d-flex justify-content-start align-items-center p-2"
-          xs={2}
-        >
+      <Row className="p-3">
+        <Col className="d-flex justify-content-start align-items-center" xs={2}>
           <MdMenu size="2rem" />
         </Col>
-        <Col className="col p-2">
-          <h2 className="text-center">Stay focused</h2>
+        <Col className="col">
+          <h1 className="text-center fs-2 fw-bold">Stay focused</h1>
         </Col>
-        <Col
-          className="d-flex justify-content-end align-items-center p-2"
-          xs={2}
-        >
+        <Col className="d-flex justify-content-end align-items-center" xs={2}>
           <MdSettings size="2rem" />
         </Col>
       </Row>
