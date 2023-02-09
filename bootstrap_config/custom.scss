@@ -2,6 +2,7 @@
 // Option B: Include parts of Bootstrap
 
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 @import "../node_modules/bootstrap/scss/functions";
 
 // 2. Include any default variable overrides here
@@ -9,6 +10,9 @@ $primary: #f1faee;
 $secondary: #a8dadc;
 $danger: #e63946;
 $dark: #212121;
+
+$body-bg: $primary;
+$font-family-base: "Inter";
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
