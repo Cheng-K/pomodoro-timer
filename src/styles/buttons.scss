@@ -1,41 +1,64 @@
 @import "../../bootstrap_config/custom.scss";
 
-.control-button-large {
-  width: 4.5rem;
-  height: 4.5rem;
+.control-button {
+  width: 5vmax;
+  height: 5vmax;
+  min-width: 3rem;
+  min-height: 3rem;
+  max-width: 4rem;
+  max-height: 4rem;
+}
+.control-button-container {
+  height: 15%;
 }
 
-.icon-large {
-  min-width: 4.5rem;
-  min-height: 4.5rem;
-  color: map-get($theme-colors, "accent-dark-blue");
+.control-button-large {
+  width: 6vmax;
+  height: 6vmax;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  max-width: 4.5rem;
+  max-height: 4.5rem;
+}
+.control-button-small {
+  width: 4vmax;
+  height: 4vmax;
+  min-width: 2rem;
+  min-height: 2rem;
+  max-width: 3rem;
+  max-height: 3rem;
 }
 
 .icon {
-  min-width: 3rem;
-  min-height: 3rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  height: 150%;
+  width: 150%;
+  max-width: 3rem;
+  max-height: 3rem;
   color: map-get($theme-colors, "accent-dark-blue");
 }
-
-.control-button {
-  width: 4rem;
-  height: 4rem;
+.icon-black {
+  color: map-get($theme-colors, "dark-black");
+}
+.icon-large {
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  height: 150%;
+  width: 150%;
+  max-width: 4.5rem;
+  max-height: 4.5rem;
+  color: map-get($theme-colors, "accent-dark-blue");
+}
+.icon-small {
+  min-width: 2rem;
+  min-height: 2rem;
+  height: 150%;
+  width: 150%;
+  max-width: 2.5rem;
+  max-height: 2.5rem;
 }
 
 .flip {
   transform: scaleX(-1);
-}
-
-.control-button-small {
-  width: 3rem;
-  height: 3rem;
-}
-
-.icon-small {
-  min-width: 2rem;
-  min-height: 2rem;
-}
-
-.icon-black {
-  color: map-get($theme-colors, "dark-black");
 }

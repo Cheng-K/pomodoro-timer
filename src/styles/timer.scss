@@ -1,5 +1,8 @@
 @import "/bootstrap_config/custom.scss";
 
+.timer-container {
+  height: 65%;
+}
 .timer-progress {
   fill: none;
   stroke: map-get($theme-colors, "accent-red");
