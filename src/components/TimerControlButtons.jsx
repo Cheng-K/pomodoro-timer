@@ -6,7 +6,14 @@ import StopButton from "./buttons/StopButton";
 import SkipButton from "./buttons/SkipButton";
 import PauseButton from "./buttons/PauseButton";
 
-function TimerControlButtons() {
+function TimerControlButtons({
+  isTimerRunning,
+  onRestartBtn,
+  onPauseBtn,
+  onStartBtn,
+  onSkipBtn,
+  onStopBtn,
+}) {
   return (
     <Container
       fluid
@@ -16,9 +23,18 @@ function TimerControlButtons() {
         size="lg"
         className="d-flex justify-content-around align-items-end flex-grow-0"
       >
-        <StopButton className="mx-3" />
-        <PlayButton className="mx-3" />
-        <RestartButton className="mx-3 flip" />
+        <StopButton className="mx-3" onClick={onStopBtn} />
+        {isTimerRunning ? (
+          <>
+            <PauseButton className="mx-3" onClick={onPauseBtn} />
+            <SkipButton className="mx-3" onClick={onSkipBtn} />
+          </>
+        ) : (
+          <>
+            <PlayButton className="mx-3" onClick={onStartBtn} />
+            <RestartButton className="mx-3 flip" onClick={onRestartBtn} />
+          </>
+        )}
       </ButtonGroup>
     </Container>
   );
