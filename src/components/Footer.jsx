@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import RestartButton from "./buttons/RestartButton";
-function Footer() {
+function Footer({ currentSession }) {
   return (
     <Container fluid className="d-flex flex-grow-1 align-items-end">
       <Container
@@ -12,7 +12,7 @@ function Footer() {
           className="bg-primary border border-0 control-button-small"
           iconStyle="icon-small icon-black"
         />
-        <p className="fs-4 mb-0 ps-1 fw-semibold">Session 1/4</p>
+        <p className="fs-4 mb-0 ps-1 fw-semibold">{`Session ${currentSession}/4`}</p>
       </Container>
     </Container>
   );
