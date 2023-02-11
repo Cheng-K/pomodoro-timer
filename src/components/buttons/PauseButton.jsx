@@ -1,10 +1,11 @@
 import { Button } from "react-bootstrap";
 import { MdPause } from "react-icons/md";
-function PauseButton({ className = "" }) {
+function PauseButton({ onClick, className = "" }) {
   return (
     <Button
       variant="secondary"
       className={`rounded-circle control-button-large  d-flex justify-content-center align-items-center ${className}`}
+      onClick={onClick}
     >
       <MdPause className="icon-large" />
     </Button>

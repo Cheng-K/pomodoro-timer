@@ -1,10 +1,11 @@
 import { Button } from "react-bootstrap";
 import { MdStop } from "react-icons/md";
-function StopButton({ className = "" }) {
+function StopButton({ className = "", onClick }) {
   return (
     <Button
       variant="secondary"
       className={`rounded-circle control-button  d-flex justify-content-center align-items-center ${className}`}
+      onClick={onClick}
     >
       <MdStop className="icon" />
     </Button>
