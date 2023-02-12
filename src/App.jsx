@@ -5,12 +5,9 @@ import Header from "./components/Header";
 import Timer from "./components/Timer";
 import TimerControlButtons from "./components/TimerControlButtons";
 import Footer from "./components/Footer";
+import onFinishRingtoneUrl from "./assets/onFinish-ringtone.mp3";
 
 function App() {
-  const setNewClock = (minutes, seconds) => {
-    setCurrentSeconds(minutes * 60 + seconds);
-  };
-
   const startClock = () => {
     toggleTimerRunning();
     const id = setInterval(() => {
@@ -41,8 +38,21 @@ function App() {
     },
     1
   );
-  const [currentSeconds, setCurrentSeconds] = useState(1);
+  const [workSeconds, setWorkSeconds] = useState(3 * 60);
+  const [shortRestSeconds, setShortRestSeconds] = useState(1 * 60);
+  const [longRestSeconds, setLongRestSeconds] = useState(2 * 60);
+  const [currentSeconds, setCurrentSeconds] = useState(workSeconds);
   const [intervalId, setIntervalId] = useState(null);
+
+  const setClock = useCallback(() => {
+    if (isWorkingSession) setCurrentSeconds(workSeconds);
+    else {
+      console.log("running rest");
+      setCurrentSeconds(
+        currentSession === 4 ? longRestSeconds : shortRestSeconds
+      );
+    }
+  }, [isWorkingSession, shortRestSeconds, longRestSeconds, workSeconds]);
 
   const stopClock = useCallback(() => {
     if (isTimerRunning) {
@@ -51,46 +61,39 @@ function App() {
     }
   }, [isTimerRunning, intervalId]);
 
-  const restartSession = useCallback(() => {
-    if (isWorkingSession) setNewClock(30, 0);
-    else setNewClock(5, 0);
-  }, [isWorkingSession]);
-
   const onFinish = useCallback(() => {
     stopClock();
-    if (isWorkingSession) setNewClock(5, 0);
-    else {
-      setNewClock(30, 0);
-      setCurrentSession();
-    }
+    if (!isWorkingSession) setCurrentSession();
     toggleWorkingSession();
-  }, [isWorkingSession, stopClock]);
+  }, [isWorkingSession, stopClock, setClock]);
 
   useEffect(() => {
-    setNewClock(30, 0);
-  }, []);
+    setClock();
+  }, [isWorkingSession]);
 
   useEffect(() => {
-    if (currentSeconds === 0) onFinish();
+    if (currentSeconds === 0) {
+      new Audio(onFinishRingtoneUrl).play();
+      onFinish();
+    }
   }, [currentSeconds]);
 
   return (
     <Stack className="py-3 vw-100 vh-100">
-      <Header />
+      <Header isWorkingSession={isWorkingSession} />
       <Timer
-        isWorking={isWorkingSession}
-        toggleWorkingSession={toggleWorkingSession}
+        isWorkingSession={isWorkingSession}
         currentSeconds={currentSeconds}
+        totalSeconds={isWorkingSession ? workSeconds : shortRestSeconds}
       />
       <TimerControlButtons
         isTimerRunning={isTimerRunning}
         onStartBtn={startClock}
         onPauseBtn={stopClock}
-        onStopBtn={() => {
+        onRestartBtn={() => {
           stopClock();
-          restartSession();
+          setClock();
         }}
-        onRestartBtn={restartSession}
         onSkipBtn={onFinish}
       />
       <Footer currentSession={currentSession} />

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
-function Timer({ isWorkingSession, currentSeconds }) {
+function Timer({ isWorkingSession, currentSeconds, totalSeconds }) {
   return (
     <Container fluid className="timer-container">
       <svg viewBox="0 0 10 10" x="200" width="100%" height="90%">
@@ -11,16 +11,15 @@ function Timer({ isWorkingSession, currentSeconds }) {
             r="4"
             className="timer-progress timer-progress-bg"
           />
-          {isWorkingSession ? (
-            <circle cx="5" cy="5" r="4" className="timer-progress" />
-          ) : (
-            <circle
-              cx="5"
-              cy="5"
-              r="4"
-              className="timer-progress timer-progress-rest"
-            />
-          )}
+          <circle
+            cx="5"
+            cy="5"
+            r="4"
+            className={`timer-progress ${
+              isWorkingSession ? "" : "timer-progress-rest"
+            }`}
+            strokeDasharray={`${(currentSeconds / totalSeconds) * 25.2} 26`}
+          />
           <text x="33%" y="55%" font-size="1.2px" font-weight="bolder">
             {`${Math.floor(currentSeconds / 60).toLocaleString("en-US", {
               minimumIntegerDigits: 2,
