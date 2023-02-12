@@ -1,11 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-function Timer({ isWorking, currentSeconds }) {
+function Timer({ isWorkingSession, currentSeconds }) {
   return (
     <Container fluid className="timer-container">
       <svg viewBox="0 0 10 10" x="200" width="100%" height="90%">
         <g>
-          {isWorking ? (
+          <circle
+            cx="5"
+            cy="5"
+            r="4"
+            className="timer-progress timer-progress-bg"
+          />
+          {isWorkingSession ? (
             <circle cx="5" cy="5" r="4" className="timer-progress" />
           ) : (
             <circle

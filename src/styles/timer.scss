@@ -7,8 +7,14 @@
   fill: none;
   stroke: map-get($theme-colors, "accent-red");
   stroke-width: 0.5;
+  transform: rotate(-90deg);
+  transform-origin: center;
 }
 
 .timer-progress-rest {
   stroke: map-get($theme-colors, "blue");
+}
+
+.timer-progress-bg {
+  stroke: map-get($theme-colors, "gray");
 }
