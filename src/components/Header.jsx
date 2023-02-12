@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import TaskButton from "./buttons/TaskButton";
 import SettingsButton from "./buttons/SettingsButton";
 
-function Header() {
+function Header({ isWorkingSession }) {
   return (
     <Container fluid>
       <Row className="p-3">
@@ -16,7 +16,9 @@ function Header() {
           />
         </Col>
         <Col className="col">
-          <h1 className="text-center fs-2 fw-bold">Stay focused</h1>
+          <h1 className="text-center fs-2 fw-bold">
+            {isWorkingSession ? "Stay focused" : "Take a break"}
+          </h1>
         </Col>
         <Col className="d-flex justify-content-end align-items-center" xs={2}>
           <SettingsButton
