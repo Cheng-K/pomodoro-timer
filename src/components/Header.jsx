@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import TaskButton from "./buttons/TaskButton";
 import SettingsButton from "./buttons/SettingsButton";
 
-function Header({ isWorkingSession }) {
+function Header({ isWorkingSession, taskButtonOnClick }) {
   return (
     <Container fluid>
       <Row className="p-3">
@@ -13,6 +13,7 @@ function Header({ isWorkingSession }) {
           <TaskButton
             className="control-button-small show-text"
             iconStyle="icon-small icon-black"
+            onClick={taskButtonOnClick}
           />
           <span>Show Tasks</span>
         </Col>

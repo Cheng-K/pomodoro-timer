@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Timer from "./components/Timer";
 import TimerControlButtons from "./components/TimerControlButtons";
 import Footer from "./components/Footer";
+import TaskPanel from "./components/TaskPanel";
 import onFinishRingtoneUrl from "./assets/onFinish-ringtone.mp3";
 
 function App() {
@@ -19,7 +20,6 @@ function App() {
     setIntervalId(id);
   };
 
-  // Play pause state
   const [isTimerRunning, toggleTimerRunning] = useReducer(
     (currentState) => !currentState,
     false
@@ -43,6 +43,7 @@ function App() {
   const [longRestSeconds, setLongRestSeconds] = useState(2 * 60);
   const [currentSeconds, setCurrentSeconds] = useState(workSeconds);
   const [intervalId, setIntervalId] = useState(null);
+  const [isTaskPanelShowing, setIsTaskPanelShowing] = useState(false);
 
   const setClock = useCallback(() => {
     if (isWorkingSession) setCurrentSeconds(workSeconds);
@@ -80,7 +81,10 @@ function App() {
 
   return (
     <Stack className="py-3 vw-100 vh-100">
-      <Header isWorkingSession={isWorkingSession} />
+      <Header
+        isWorkingSession={isWorkingSession}
+        taskButtonOnClick={() => setIsTaskPanelShowing(true)}
+      />
       <Timer
         isWorkingSession={isWorkingSession}
         currentSeconds={currentSeconds}
@@ -97,6 +101,11 @@ function App() {
         onSkipBtn={onFinish}
       />
       <Footer currentSession={currentSession} />
+      <TaskPanel
+        show={isTaskPanelShowing}
+        handleClose={() => setIsTaskPanelShowing(false)}
+        className="task-panel"
+      />
     </Stack>
   );
 }
