@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Container from "react-bootstrap/Container";
 import dayjs from "dayjs";
+import { MdCalendarToday, MdAlarm } from "react-icons/md";
 
-function Task() {
+function Task({ editMode }) {
   const [title, setTitle] = useState("Programming");
   const [isDone, toggleIsDone] = useReducer(
     (currentState) => !currentState,
@@ -21,22 +22,40 @@ function Task() {
       className="d-flex justify-content-between align-items-center"
     >
       <div>
-        <h5>{title}</h5>
-        <input
-          type="date"
-          value={date}
-          onChange={(newValue) => {
-            setDate(newValue.target.value);
-          }}
-        />
-        <input
-          type="time"
-          value={time}
-          className="ms-2"
-          onChange={(newValue) => {
-            setTime(newValue.target.value);
-          }}
-        />
+        {editMode ? (
+          <>
+            <input
+              type="text"
+              value={title}
+              onChange={(newValue) => setTitle(newValue.target.value)}
+            />
+            <input
+              type="date"
+              value={date}
+              onChange={(newValue) => {
+                setDate(newValue.target.value);
+              }}
+            />
+            <input
+              type="time"
+              value={time}
+              className="ms-2"
+              onChange={(newValue) => {
+                setTime(newValue.target.value);
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <h5>{title}</h5>
+            <div className="d-flex align-items-center">
+              <MdCalendarToday className="me-1" />
+              <span className="me-3">{date}</span>
+              <MdAlarm className="me-1" />
+              <span>{time}</span>
+            </div>
+          </>
+        )}
       </div>
       <input
         className="form-check-input task-checkbox"

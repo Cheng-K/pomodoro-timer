@@ -3,13 +3,15 @@
 .task-panel {
   border-top-right-radius: 3%;
   border-bottom-right-radius: 3%;
-  background-color: $secondary;
+  background-color: $secondary !important;
 }
 
 .task-checkbox {
   border-radius: 50% !important;
-  width: 2rem;
-  height: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  max-width: 2rem;
+  max-height: 2rem;
   cursor: pointer;
 }
 
