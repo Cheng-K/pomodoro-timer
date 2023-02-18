@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import dayjs from "dayjs";
 
 function AddTaskModal({ show, handleClose, onAdd }) {
   const [title, setTitle] = useState("");
@@ -18,6 +19,8 @@ function AddTaskModal({ show, handleClose, onAdd }) {
       console.log(title);
       console.log(date);
       console.log(time);
+      handleClose();
+      onAdd({ title, dueDateTime: dayjs(`${date} ${time}`) });
     }
   };
 
