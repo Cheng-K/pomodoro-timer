@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import AddTaskModal from "./task_panel/AddTaskModal";
+import AddTaskModal from "./AddTaskModal";
 import AddButton from "./task_panel/AddButton";
 import BackButton from "./task_panel/BackButton";
 import CloseButton from "./task_panel/CloseButton";
