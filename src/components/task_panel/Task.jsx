@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Container from "react-bootstrap/Container";
 import DeleteButton from "./DeleteButton";
+import EditButton from "./EditButton";
 import { MdCalendarToday, MdAlarm } from "react-icons/md";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import dayjs from "dayjs";
 
 function Task({ editMode, ...props }) {
   const [title, setTitle] = useState(props.defaultTitle);
@@ -14,6 +16,12 @@ function Task({ editMode, ...props }) {
   );
   const [date, setDate] = useState(props.due.format("YYYY-MM-DD"));
   const [time, setTime] = useState(props.due.format("HH:mm"));
+
+  useEffect(() => {
+    if (!editMode) {
+      props.onUpdate({ title, dueDateTime: dayjs(`${date} ${time}`) });
+    }
+  }, [editMode]);
 
   return (
     <Container
