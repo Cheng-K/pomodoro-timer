@@ -64,9 +64,12 @@ function AddTaskModal({ show, handleClose, onAdd }) {
               type="date"
               value={date}
               onChange={(event) => setDate(event.target.value)}
+              max="9999-12-31"
+              min="2023-01-01"
             />
             <Form.Control.Feedback type="invalid">
-              Please enter a valid due date for the task.
+              Please enter a valid due date for the task. Min: 01/01/2023 | Max:
+              31/12/9999
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group
