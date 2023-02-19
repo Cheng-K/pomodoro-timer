@@ -13,9 +13,11 @@ $dark: #212121;
 
 $body-bg: $primary;
 $font-family-base: "Inter";
+$input-bg: #ffffff;
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
+$input-focus-border-color: $blue-400;
 
 // 4. Include any default map overrides here
 $custom-colors: (
