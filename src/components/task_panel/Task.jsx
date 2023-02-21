@@ -143,27 +143,35 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
               {title}
             </h5>
             <div className="d-flex align-items-center">
-              <MdCalendarToday
-                className="me-1"
-                color={isDone ? "#6c757d" : ""}
-              />
-              <span
-                className={
-                  isDone
-                    ? `text-muted text-decoration-line-through me-3`
-                    : `me-3`
-                }
-              >
-                {date ? date : "No date"}
-              </span>
-              <MdAlarm className="me-1" color={isDone ? "#6c757d" : ""} />
-              <span
-                className={
-                  isDone ? `text-muted text-decoration-line-through` : ``
-                }
-              >
-                {time ? time : "No time"}
-              </span>
+              {date && (
+                <>
+                  <MdCalendarToday
+                    className="me-1"
+                    color={isDone ? "#6c757d" : ""}
+                  />
+                  <span
+                    className={
+                      isDone
+                        ? `text-muted text-decoration-line-through me-3`
+                        : `me-3`
+                    }
+                  >
+                    {date}
+                  </span>
+                </>
+              )}
+              {time && (
+                <>
+                  <MdAlarm className="me-1" color={isDone ? "#6c757d" : ""} />
+                  <span
+                    className={
+                      isDone ? `text-muted text-decoration-line-through` : ``
+                    }
+                  >
+                    {time}
+                  </span>
+                </>
+              )}
             </div>
           </div>
           <input
