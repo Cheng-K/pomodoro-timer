@@ -91,6 +91,7 @@ function TaskPanel({ show, handleClose, ...props }) {
                 <EditButton
                   className="me-3"
                   onClick={() => setInEditMode(true)}
+                  tooltip="Edit Tasks"
                 />
               </>
             )}

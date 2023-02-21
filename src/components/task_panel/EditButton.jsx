@@ -1,14 +1,17 @@
 import Button from "react-bootstrap/Button";
 import { MdEdit, MdEditOff } from "react-icons/md";
-function EditButton({ onClick, offVariant = false }) {
+import AppTooltip from "../AppTooltip";
+function EditButton({ onClick, offVariant = false, tooltip = "Edit Task" }) {
   return (
-    <Button onClick={onClick} variant="secondary">
-      {offVariant ? (
-        <MdEditOff size="2rem" className="icon-black" />
-      ) : (
-        <MdEdit size="2rem" className="icon-black" />
-      )}
-    </Button>
+    <AppTooltip text={offVariant ? "Exit Editing" : tooltip}>
+      <Button onClick={onClick} variant="secondary">
+        {offVariant ? (
+          <MdEditOff size="2rem" className="icon-black" />
+        ) : (
+          <MdEdit size="2rem" className="icon-black" />
+        )}
+      </Button>
+    </AppTooltip>
   );
 }
 
