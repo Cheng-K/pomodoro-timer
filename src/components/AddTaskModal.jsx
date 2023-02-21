@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import dayjs from "dayjs";
+import { createTaskForAdd } from "../utilities/database";
 
 function AddTaskModal({ show, handleClose, onAdd }) {
-  const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [title, setTitle] = useState("");
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
@@ -16,11 +17,10 @@ function AddTaskModal({ show, handleClose, onAdd }) {
     event.stopPropagation();
     setValidated(true);
     if (form.checkValidity() !== false) {
-      console.log(title);
-      console.log(date);
-      console.log(time);
       handleClose();
-      onAdd({ title, dueDateTime: dayjs(`${date} ${time}`) });
+      onAdd(
+        createTaskForAdd(title, dayjs(`${date} ${time}`).toDate(), time !== "")
+      );
     }
   };
 
@@ -72,17 +72,13 @@ function AddTaskModal({ show, handleClose, onAdd }) {
               31/12/9999
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group
-            controlId="formDueTime"
-            className="mb-3"
-            value={time}
-            onChange={(event) => setTime(event.target.value)}
-          >
+          <Form.Group controlId="formDueTime" className="mb-3">
             <Form.Label>Due Time</Form.Label>
             <Form.Control
               type="time"
               value={time}
               onChange={(event) => setTime(event.target.value)}
+              disabled={date === ""}
             />
             <Form.Control.Feedback type="invalid">
               Please enter a valid due time for the task.
