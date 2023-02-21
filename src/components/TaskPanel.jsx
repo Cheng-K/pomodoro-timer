@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
-import React, { useReducer, useState } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
+import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import * as Storage from "../utilities/database";
 import AddTaskModal from "./AddTaskModal";
 import AddButton from "./task_panel/AddButton";
 import CloseButton from "./task_panel/CloseButton";
@@ -10,29 +12,13 @@ import Task from "./task_panel/Task";
 
 function TaskPanel({ show, handleClose, ...props }) {
   const [inEditMode, setInEditMode] = useState(false);
-  const [tasksList, updateTaskList] = useReducer(
-    (task, request) => {
-      if (request.type === "POST") {
-        return [...task, request.task];
-      } else if (request.type === "PUT") {
-        return task.map((t) => {
-          if (t.id === request.task.id) {
-            return request.task;
-          }
-          return t;
-        });
-      } else if (request.type === "DELETE") {
-        return task.filter((t) => {
-          t.id !== request.task.id;
-        });
-      }
-    },
-    [{ id: 1, title: "Programming", dueDateTime: dayjs() }]
-  );
   const [addModalShowing, setAddModalShowing] = useState(false);
-  const allTasks = tasksList.map((task) => {
-    let dueDate = task.dueDateTime.format("YYYY-MM-DD");
-    let dueTime = task.dueDateTime.format("HH:mm");
+  const notDoneTasks = useLiveQuery(Storage.getAllNotDoneTask);
+  const pendingTasksList = notDoneTasks?.map((task) => {
+    let dueDate = dayjs(task.dueDateTime).format("YYYY-MM-DD");
+    let dueTime = task.displayTime
+      ? dayjs(task.dueDateTime).format("HH:mm")
+      : "";
     if (dueDate === "Invalid Date") dueDate = "";
     if (dueTime === "Invalid Date") dueTime = "";
     return (
@@ -44,13 +30,12 @@ function TaskPanel({ show, handleClose, ...props }) {
         dueDate={dueDate}
         dueTime={dueTime}
         className="mb-3"
-        onUpdate={(updatedTask) =>
-          updateTaskList({ type: "PUT", task: updatedTask })
-        }
+        onUpdate={async (updatedTask) => await Storage.updateTask(updatedTask)}
+        onDelete={async (taskId) => await Storage.removeTask(taskId)}
       />
     );
   });
-  console.log(tasksList);
+
   return (
     <>
       <Offcanvas
@@ -81,12 +66,12 @@ function TaskPanel({ show, handleClose, ...props }) {
             <CloseButton className="me-1" onClick={handleClose} />
           </div>
         </Offcanvas.Header>
-        <Offcanvas.Body>{allTasks}</Offcanvas.Body>
+        <Offcanvas.Body>{pendingTasksList}</Offcanvas.Body>
       </Offcanvas>
       <AddTaskModal
         show={addModalShowing}
         handleClose={() => setAddModalShowing(false)}
-        onAdd={(newTask) => updateTaskList({ type: "POST", task: newTask })}
+        onAdd={async (newTask) => await Storage.addTask(newTask)}
       />
     </>
   );
