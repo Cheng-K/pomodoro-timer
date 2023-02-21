@@ -1,27 +1,40 @@
+import dayjs from "dayjs";
 import React, { useReducer, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { MdAlarm, MdCalendarToday } from "react-icons/md";
+import { createTaskForUpdate } from "../../utilities/database";
 import DeleteButton from "./DeleteButton";
 import DoneButton from "./DoneButton";
 import EditButton from "./EditButton";
-import dayjs from "dayjs";
 
-function Task({ editMode, onUpdate, ...props }) {
+function Task({ editMode, onUpdate, onDelete, ...props }) {
   const [title, setTitle] = useState(props.defaultTitle);
-  const [isDone, toggleIsDone] = useReducer(
-    (currentState) => !currentState,
-    false
-  );
   const [date, setDate] = useState(props.dueDate);
   const [time, setTime] = useState(props.dueTime);
+  const [editValidated, setEditValidated] = useState(false);
+  const [isDone, toggleIsDone] = useReducer((currentState) => {
+    setTimeout(
+      () =>
+        onUpdate(
+          createTaskForUpdate(
+            props.id,
+            title,
+            dayjs(`${date} ${time}`).toDate(),
+            !currentState,
+            time !== ""
+          )
+        ),
+      500
+    );
+    return !currentState;
+  }, false);
   const [isEditing, toggleEditing] = useReducer(
     (currentState) => !currentState,
     false
   );
-  const [editValidated, setEditValidated] = useState(false);
   const onEditFinish = (event) => {
     const form = event.currentTarget;
     event.preventDefault();
@@ -29,11 +42,15 @@ function Task({ editMode, onUpdate, ...props }) {
     setEditValidated(true);
     if (form.checkValidity() !== false) {
       setEditValidated(false);
-      onUpdate({
-        id: props.id,
-        title,
-        dueDateTime: dayjs(`${date} ${time}`),
-      });
+      onUpdate(
+        createTaskForUpdate(
+          props.id,
+          title,
+          dayjs(`${date} ${time}`).toDate(),
+          isDone,
+          time !== ""
+        )
+      );
       toggleEditing();
     }
   };
@@ -86,6 +103,7 @@ function Task({ editMode, onUpdate, ...props }) {
                 type="date"
                 value={date}
                 onChange={(newValue) => {
+                  if (newValue.target.value === "") setTime("");
                   setDate(newValue.target.value);
                 }}
                 disabled={!isEditing}
@@ -103,14 +121,14 @@ function Task({ editMode, onUpdate, ...props }) {
                 onChange={(newValue) => {
                   setTime(newValue.target.value);
                 }}
-                disabled={!isEditing}
+                disabled={!isEditing || date === ""}
               />
               <Form.Control.Feedback type="invalid">
                 Please enter a valid due time for the task.
               </Form.Control.Feedback>
             </Form.Group>
             <Col xs={2}>
-              <DeleteButton />
+              <DeleteButton onClick={() => onDelete(props.id)} />
             </Col>
           </Row>
         </Form>
