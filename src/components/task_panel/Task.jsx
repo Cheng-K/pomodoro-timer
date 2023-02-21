@@ -30,7 +30,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
       500
     );
     return !currentState;
-  }, false);
+  }, props.done);
   const [isEditing, toggleEditing] = useReducer(
     (currentState) => !currentState,
     false
