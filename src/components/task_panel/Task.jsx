@@ -175,7 +175,9 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
             </div>
           </div>
           <input
-            className="form-check-input task-checkbox"
+            className={`form-check-input task-checkbox ${
+              props.expired ? "task-checkbox-overdue" : ""
+            }`}
             type="checkbox"
             checked={isDone}
             onChange={toggleIsDone}

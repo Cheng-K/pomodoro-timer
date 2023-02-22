@@ -18,12 +18,14 @@ function TaskPanel({ show, handleClose, ...props }) {
   const notDoneTasks = useLiveQuery(Storage.getAllNotDoneTask);
   const doneTasks = useLiveQuery(Storage.getAllDoneTask);
   const pendingTasksList = notDoneTasks?.map((task) => {
-    let dueDate = dayjs(task.dueDateTime).format("YYYY-MM-DD");
-    let dueTime = task.displayTime
-      ? dayjs(task.dueDateTime).format("HH:mm")
-      : "";
-    if (dueDate === "Invalid Date") dueDate = "";
-    if (dueTime === "Invalid Date") dueTime = "";
+    let datetime = dayjs(task.dueDateTime);
+    let dueDate = datetime.isValid() ? datetime.format("YYYY-MM-DD") : "";
+    let dueTime =
+      datetime.isValid() && task.displayTime ? datetime.format("HH:mm") : "";
+    let expired = false;
+    if (datetime.isValid() && task.displayTime)
+      expired = datetime.isBefore(dayjs(), "minutes");
+    else if (datetime.isValid()) expired = datetime.isBefore(dayjs(), "day");
     return (
       <Task
         key={task.id}
@@ -36,18 +38,17 @@ function TaskPanel({ show, handleClose, ...props }) {
         className="mb-3"
         onUpdate={async (updatedTask) => await Storage.updateTask(updatedTask)}
         onDelete={async (taskId) => await Storage.removeTask(taskId)}
+        expired={expired}
       />
     );
   });
   let doneTasksList = null;
   if (isShowingFinishedTasks) {
     doneTasksList = doneTasks?.map((task) => {
-      let dueDate = dayjs(task.dueDateTime).format("YYYY-MM-DD");
-      let dueTime = task.displayTime
-        ? dayjs(task.dueDateTime).format("HH:mm")
-        : "";
-      if (dueDate === "Invalid Date") dueDate = "";
-      if (dueTime === "Invalid Date") dueTime = "";
+      let datetime = dayjs(task.dueDateTime);
+      let dueDate = datetime.isValid() ? datetime.format("YYYY-MM-DD") : "";
+      let dueTime =
+        datetime.isValid() && task.displayTime ? datetime.format("HH:mm") : "";
       return (
         <Task
           key={task.id}
@@ -62,19 +63,11 @@ function TaskPanel({ show, handleClose, ...props }) {
             await Storage.updateTask(updatedTask)
           }
           onDelete={async (taskId) => await Storage.removeTask(taskId)}
+          expired={false}
         />
       );
     });
   }
-  const bulkDeleteCompleted = async () => {
-    const keys = Storage.reduceToPrimaryKey(doneTaskList);
-    return Storage.bulkDeleteTasks(keys);
-  };
-
-  const bulkDeleteNotCompleted = async () => {
-    const keys = Storage.reduceToPrimaryKey(pendingTasksList);
-    return Storage.bulkDeleteTasks(keys);
-  };
 
   return (
     <>
