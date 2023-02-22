@@ -81,3 +81,11 @@ export function createTaskForUpdate(id, title, dateObj, done, displayTime) {
 export function createTaskForAdd(title, dateObj, displayTime) {
   return { title, dueDateTime: dateObj, done: false, displayTime };
 }
+
+export async function bulkDeleteTasks(arr) {
+  return db.tasks.bulkDelete(arr);
+}
+
+export function reduceToPrimaryKey(tasks) {
+  return tasks.map((t) => t.id);
+}

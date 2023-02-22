@@ -66,6 +66,15 @@ function TaskPanel({ show, handleClose, ...props }) {
       );
     });
   }
+  const bulkDeleteCompleted = async () => {
+    const keys = Storage.reduceToPrimaryKey(doneTaskList);
+    return Storage.bulkDeleteTasks(keys);
+  };
+
+  const bulkDeleteNotCompleted = async () => {
+    const keys = Storage.reduceToPrimaryKey(pendingTasksList);
+    return Storage.bulkDeleteTasks(keys);
+  };
 
   return (
     <>
@@ -83,7 +92,28 @@ function TaskPanel({ show, handleClose, ...props }) {
             {inEditMode ? (
               <>
                 <EditButton onClick={() => setInEditMode(false)} offVariant />
-                <DeleteAllButton className="me-3" />
+                <DeleteAllButton
+                  className="me-3"
+                  onClick={() => {
+                    let array1 = Storage.reduceToPrimaryKey(notDoneTasks);
+                    let array2 = null;
+                    if (isShowingFinishedTasks)
+                      array2 = Storage.reduceToPrimaryKey(doneTasks);
+                    Storage.db
+                      .transaction("rw", Storage.db.tasks, () => {
+                        if (isShowingFinishedTasks)
+                          return Promise.all([
+                            Storage.bulkDeleteTasks(array1),
+                            Storage.bulkDeleteTasks(array2),
+                          ]);
+                        return Storage.bulkDeleteTasks(array1);
+                      })
+                      .then(() => {
+                        console.log("Delete successful");
+                      })
+                      .catch((error) => console.log(error));
+                  }}
+                />
               </>
             ) : (
               <>
