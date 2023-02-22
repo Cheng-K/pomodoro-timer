@@ -1,7 +1,12 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import RestartButton from "./buttons/RestartButton";
-function Footer({ currentSession }) {
+function Footer({
+  currentSession,
+  maxSession,
+  onRestartSession,
+  isTimerRunning,
+}) {
   return (
     <Container fluid className="d-flex flex-grow-1 align-items-end">
       <Container
@@ -11,8 +16,10 @@ function Footer({ currentSession }) {
         <RestartButton
           className="bg-primary border border-0 control-button-small"
           iconStyle="icon-small icon-black"
+          onClick={onRestartSession}
+          disabled={isTimerRunning}
         />
-        <p className="fs-4 mb-0 ps-1 fw-semibold">{`Session ${currentSession}/4`}</p>
+        <p className="fs-4 mb-0 ps-1 fw-semibold">{`Session ${currentSession}/${maxSession}`}</p>
       </Container>
     </Container>
   );
