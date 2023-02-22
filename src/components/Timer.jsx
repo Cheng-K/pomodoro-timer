@@ -20,7 +20,7 @@ function Timer({ isWorkingSession, currentSeconds, totalSeconds }) {
             }`}
             strokeDasharray={`${(currentSeconds / totalSeconds) * 25.2} 26`}
           />
-          <text x="33%" y="55%" font-size="1.2px" font-weight="bolder">
+          <text x="33%" y="55%" fontSize="1.2px" fontWeight="bolder">
             {`${Math.floor(currentSeconds / 60).toLocaleString("en-US", {
               minimumIntegerDigits: 2,
               useGrouping: false,
