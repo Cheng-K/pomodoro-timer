@@ -6,7 +6,7 @@ function AppTooltip(props) {
     <OverlayTrigger
       placement="bottom"
       delay={{ show: 250, hide: 400 }}
-      trigger={["hover"]}
+      trigger={["hover", "focus"]}
       overlay={<Tooltip>{props.text}</Tooltip>}
     >
       {props.children}
