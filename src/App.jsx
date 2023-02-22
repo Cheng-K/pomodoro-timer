@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Stack from "react-bootstrap/Stack";
 import onFinishRingtoneUrl from "./assets/onFinish-ringtone.mp3";
 import Footer from "./components/Footer";
@@ -14,20 +14,13 @@ function App() {
   const [sessionNumber, setSessionNumber] = useState(1);
 
   const [maxSession, setMaxSession] = useState(4 * 2);
-  const [workSeconds, setWorkSeconds] = useState(3 * 60);
+  const [workSeconds, setWorkSeconds] = useState(10);
   const [shortRestSeconds, setShortRestSeconds] = useState(5);
   const [longRestSeconds, setLongRestSeconds] = useState(2 * 60);
   const [currentSeconds, setCurrentSeconds] = useState(workSeconds);
   const [isTaskPanelShowing, setIsTaskPanelShowing] = useState(false);
 
-  const runAfterOneSecond = () => {
-    if (currentSeconds === 0) {
-      onFinish();
-      new Audio(onFinishRingtoneUrl).play();
-    } else {
-      setCurrentSeconds(currentSeconds - 1);
-    }
-  };
+  const runAfterOneSecond = () => setCurrentSeconds(currentSeconds - 1);
 
   useInterval(runAfterOneSecond, isTimerRunning ? 1000 : null);
 
@@ -46,6 +39,15 @@ function App() {
       else return 1;
     });
   };
+
+  useEffect(() => {
+    if (currentSeconds === 0) {
+      setTimeout(() => {
+        onFinish();
+        new Audio(onFinishRingtoneUrl).play();
+      }, 300);
+    }
+  }, [currentSeconds]);
 
   if (sessionNumber !== prevSessionNumber) {
     if (sessionNumber % 2 == 0 && sessionNumber === maxSession) {
