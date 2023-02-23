@@ -38,7 +38,7 @@ function AddTaskModal({ show, handleClose, onAdd }) {
       show={show}
       onHide={handleClose}
       onExited={resetForm}
-      contentClassName="add-task-modal"
+      contentClassName="modal-bg"
     >
       <Modal.Header closeButton>
         <Modal.Title>Add Task</Modal.Title>
