@@ -2,10 +2,25 @@ import Dexie from "dexie";
 import dayjs from "dayjs";
 
 export const db = new Dexie("PomodoroDatabase");
+export const settingsKey = {
+  workDuration: "WORKSECONDS",
+  shortRestDuration: "SHORTRESTSECONDS",
+  longRestDuration: "LONGRESTSECONDS",
+  maxSession: "MAXSESSION",
+};
 
 db.version(1).stores({
   tasks: "++id, title, dueDateTime",
   settings: "name, value",
+});
+
+db.on("populate", (tx) => {
+  tx.table("settings").bulkAdd([
+    { name: settingsKey.workDuration, value: 25 * 60 },
+    { name: settingsKey.shortRestDuration, value: 5 * 60 },
+    { name: settingsKey.longRestDuration, value: 15 * 60 },
+    { name: settingsKey.maxSession, value: 4 },
+  ]);
 });
 
 export async function addTask(newTask) {
@@ -88,4 +103,12 @@ export async function bulkDeleteTasks(arr) {
 
 export function reduceToPrimaryKey(tasks) {
   return tasks.map((t) => t.id);
+}
+
+export async function updateSettings(newSettings) {
+  return db.settings.bulkPut(newSettings);
+}
+
+export async function getSetting(key) {
+  return db.settings.get(key).then((obj) => obj.value);
 }
