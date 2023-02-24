@@ -6,32 +6,49 @@ import Header from "./components/Header";
 import TaskPanel from "./components/TaskPanel";
 import Timer from "./components/Timer";
 import TimerControlButtons from "./components/TimerControlButtons";
+import SettingsModal from "./components/SettingsModal";
 import useInterval from "./hooks/useInterval";
+import { useLiveQuery } from "dexie-react-hooks";
+import * as Storage from "./utilities/database.js";
 
 function App() {
+  const maxSession = useLiveQuery(() =>
+    Storage.getSetting(Storage.settingsKey.maxSession).then(
+      (value) => value * 2
+    )
+  );
+  const workSeconds = useLiveQuery(() =>
+    Storage.getSetting(Storage.settingsKey.workDuration)
+  );
+  const shortRestSeconds = useLiveQuery(() =>
+    Storage.getSetting(Storage.settingsKey.shortRestDuration)
+  );
+  const longRestSeconds = useLiveQuery(() =>
+    Storage.getSetting(Storage.settingsKey.longRestDuration)
+  );
+  const [prevSettings, setPrevSettings] = useState({});
   const [isTimerRunning, setTimerRunning] = useState(false);
-  const [prevSessionNumber, setPrevSessionNumber] = useState(0);
+  const [prevSessionNumber, setPrevSessionNumber] = useState(1);
   const [sessionNumber, setSessionNumber] = useState(1);
-
-  const [maxSession, setMaxSession] = useState(4 * 2);
-  const [workSeconds, setWorkSeconds] = useState(10);
-  const [shortRestSeconds, setShortRestSeconds] = useState(5);
-  const [longRestSeconds, setLongRestSeconds] = useState(2 * 60);
-  const [currentSeconds, setCurrentSeconds] = useState(workSeconds);
+  const [currentSeconds, setCurrentSeconds] = useState(undefined);
   const [isTaskPanelShowing, setIsTaskPanelShowing] = useState(false);
+  const [isSettingsShowing, setIsSettingsShowing] = useState(false);
 
   const runAfterOneSecond = () => setCurrentSeconds(currentSeconds - 1);
-
   useInterval(runAfterOneSecond, isTimerRunning ? 1000 : null);
 
-  const setClock = (time) => {
-    setCurrentSeconds(time);
+  const setClock = (time) => setCurrentSeconds(time);
+  const setClockBasedOnSession = () => {
+    if (sessionNumber % 2 == 0 && sessionNumber === maxSession) {
+      setClock(longRestSeconds);
+    } else if (sessionNumber % 2 == 0) {
+      setClock(shortRestSeconds);
+    } else {
+      setClock(workSeconds);
+    }
   };
-
   const startClock = () => setTimerRunning(true);
-
   const stopClock = () => setTimerRunning(false);
-
   const onFinish = () => {
     stopClock();
     setSessionNumber((session) => {
@@ -49,14 +66,28 @@ function App() {
     }
   }, [currentSeconds]);
 
+  if (!maxSession || !workSeconds || !shortRestSeconds || !longRestSeconds)
+    return <></>;
+
+  if (
+    prevSettings[Storage.settingsKey.workDuration] !== workSeconds ||
+    prevSettings[Storage.settingsKey.shortRestDuration] !== shortRestSeconds ||
+    prevSettings[Storage.settingsKey.longRestDuration] !== longRestSeconds
+  ) {
+    const newSettings = {};
+    newSettings[Storage.settingsKey.workDuration] = workSeconds;
+    newSettings[Storage.settingsKey.shortRestDuration] = shortRestSeconds;
+    newSettings[Storage.settingsKey.longRestDuration] = longRestSeconds;
+    setPrevSettings(newSettings);
+    setClockBasedOnSession();
+  }
+
+  if (maxSession < Math.ceil(sessionNumber / 2)) {
+    setSessionNumber(1);
+  }
+
   if (sessionNumber !== prevSessionNumber) {
-    if (sessionNumber % 2 == 0 && sessionNumber === maxSession) {
-      setClock(longRestSeconds);
-    } else if (sessionNumber % 2 == 0) {
-      setClock(shortRestSeconds);
-    } else {
-      setClock(workSeconds);
-    }
+    setClockBasedOnSession();
     setPrevSessionNumber(sessionNumber);
   }
 
@@ -65,6 +96,8 @@ function App() {
       <Header
         isWorkingSession={sessionNumber % 2 !== 0}
         taskButtonOnClick={() => setIsTaskPanelShowing(true)}
+        settingsButtonOnClick={() => setIsSettingsShowing(true)}
+        isTimerRunning={isTimerRunning}
       />
       <Timer
         isWorkingSession={sessionNumber % 2 !== 0}
@@ -83,13 +116,7 @@ function App() {
         onPauseBtn={stopClock}
         onRestartBtn={() => {
           stopClock();
-          setClock(
-            sessionNumber % 2 !== 0
-              ? workSeconds
-              : sessionNumber !== maxSession
-              ? shortRestSeconds
-              : longRestSeconds
-          );
+          setClockBasedOnSession();
         }}
         onSkipBtn={onFinish}
       />
@@ -103,6 +130,17 @@ function App() {
         show={isTaskPanelShowing}
         handleClose={() => setIsTaskPanelShowing(false)}
         className="task-panel"
+      />
+      <SettingsModal
+        show={isSettingsShowing}
+        handleClose={() => setIsSettingsShowing(false)}
+        onUpdate={async (newSettings) => {
+          await Storage.updateSettings(newSettings);
+        }}
+        currentWorkSeconds={workSeconds}
+        currentShortRestSeconds={shortRestSeconds}
+        currentLongRestSeconds={longRestSeconds}
+        currentMaxSession={maxSession}
       />
     </Stack>
   );
