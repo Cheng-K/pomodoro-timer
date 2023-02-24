@@ -4,6 +4,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
 import { MdAlarm, MdCalendarToday } from "react-icons/md";
 import { createTaskForUpdate } from "../../utilities/database";
 import DeleteButton from "./DeleteButton";
@@ -16,19 +17,19 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
   const [time, setTime] = useState(props.dueTime);
   const [editValidated, setEditValidated] = useState(false);
   const [isDone, toggleIsDone] = useReducer((currentState) => {
-    setTimeout(
-      () =>
-        onUpdate(
-          createTaskForUpdate(
-            props.id,
-            title,
-            dayjs(`${date} ${time}`).toDate(),
-            !currentState,
-            time !== ""
-          )
-        ),
-      500
-    );
+    setTimeout(() => {
+      onUpdate(
+        createTaskForUpdate(
+          props.id,
+          title,
+          dayjs(`${date} ${time}`).toDate(),
+          !currentState,
+          time !== "",
+          props.active
+        )
+      );
+      if (props.active) props.onDeactivate();
+    }, 500);
     return !currentState;
   }, props.done);
   const [isEditing, toggleEditing] = useReducer(
@@ -48,7 +49,8 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
           title,
           dayjs(`${date} ${time}`).toDate(),
           isDone,
-          time !== ""
+          time !== "",
+          props.active
         )
       );
       toggleEditing();
@@ -173,6 +175,22 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                 </>
               )}
             </div>
+            {!isDone && (
+              <Button
+                variant={`${
+                  props.active ? "outline-success" : "outline-light-black"
+                }`}
+                size="sm"
+                className={`mt-1 ${
+                  props.active ? "active-button" : "inactive-button"
+                }`}
+                onClick={
+                  props.active
+                    ? () => props.onDeactivate()
+                    : () => props.onActivate(props.id)
+                }
+              ></Button>
+            )}
           </div>
           <input
             className={`form-check-input task-checkbox ${

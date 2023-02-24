@@ -15,6 +15,7 @@ function TaskPanel({ show, handleClose, ...props }) {
   const [inEditMode, setInEditMode] = useState(false);
   const [addModalShowing, setAddModalShowing] = useState(false);
   const [isShowingFinishedTasks, setIsShowingFinishedTasks] = useState(false);
+  const [activeTaskId, setActiveTaskId] = useState(undefined);
   const notDoneTasks = useLiveQuery(Storage.getAllNotDoneTask);
   const doneTasks = useLiveQuery(Storage.getAllDoneTask);
   const pendingTasksList = notDoneTasks?.map((task) => {
@@ -26,18 +27,29 @@ function TaskPanel({ show, handleClose, ...props }) {
     if (datetime.isValid() && task.displayTime)
       expired = datetime.isBefore(dayjs(), "minutes");
     else if (datetime.isValid()) expired = datetime.isBefore(dayjs(), "day");
+    if (task.active === 1 && activeTaskId === undefined)
+      setActiveTaskId(task.id);
     return (
       <Task
         key={task.id}
         id={task.id}
+        active={activeTaskId === task.id}
         editMode={inEditMode}
         defaultTitle={task.title}
         dueDate={dueDate}
         dueTime={dueTime}
         done={task.done}
-        className="mb-3"
+        className="mb-3 py-1"
         onUpdate={async (updatedTask) => await Storage.updateTask(updatedTask)}
         onDelete={async (taskId) => await Storage.removeTask(taskId)}
+        onActivate={async (newId) => {
+          setActiveTaskId(newId);
+          await Storage.changeActiveTask(activeTaskId, newId);
+        }}
+        onDeactivate={async () => {
+          setActiveTaskId(null);
+          Storage.deactivateTask(task.id);
+        }}
         expired={expired}
       />
     );
@@ -58,7 +70,8 @@ function TaskPanel({ show, handleClose, ...props }) {
           dueDate={dueDate}
           dueTime={dueTime}
           done={task.done}
-          className="mb-3"
+          active={false}
+          className="mb-3 py-1"
           onUpdate={async (updatedTask) =>
             await Storage.updateTask(updatedTask)
           }

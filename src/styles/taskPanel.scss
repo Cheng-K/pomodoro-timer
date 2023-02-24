@@ -24,3 +24,11 @@ input[type="checkbox"]:checked {
 .task-checkbox-overdue {
   border: 4px solid map-get($theme-colors, "accent-red") !important;
 }
+
+.active-button::after {
+  content: "Working";
+}
+
+.inactive-button::after {
+  content: "Pending";
+}
