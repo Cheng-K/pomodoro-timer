@@ -10,6 +10,8 @@ function SettingInput({
   onValueChange,
   minValue,
   maxValue,
+  invalidMsg,
+  required,
   ...props
 }) {
   return (
@@ -24,7 +26,11 @@ function SettingInput({
           max={maxValue}
           value={value}
           onChange={onValueChange}
+          required={required}
         />
+        <Form.Control.Feedback type="invalid">
+          {invalidMsg}
+        </Form.Control.Feedback>
       </Col>
     </Form.Group>
   );
