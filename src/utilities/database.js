@@ -10,7 +10,7 @@ export const settingsKey = {
 };
 
 db.version(1).stores({
-  tasks: "++id, title, dueDateTime",
+  tasks: "++id, title, dueDateTime, active",
   settings: "name, value",
 });
 
@@ -89,12 +89,47 @@ export async function getAllDoneTask() {
     });
 }
 
-export function createTaskForUpdate(id, title, dateObj, done, displayTime) {
-  return { id, title, dueDateTime: dateObj, done, displayTime };
+export async function changeActiveTask(oldId, newId) {
+  const promises = [db.tasks.update(newId, { active: 1 })];
+  if (oldId !== undefined && oldId !== null)
+    promises.push(db.tasks.update(oldId, { active: 0 }));
+  return Promise.all(promises);
+}
+
+export async function deactivateTask(id) {
+  return db.tasks.update(id, { active: 0 });
+}
+
+export async function getActiveTask() {
+  return db.tasks.where("active").equals(1).first();
+}
+
+export function createTaskForUpdate(
+  id,
+  title,
+  dateObj,
+  done,
+  displayTime,
+  active
+) {
+  return {
+    id,
+    title,
+    dueDateTime: dateObj,
+    done,
+    displayTime,
+    active: active ? 1 : 0,
+  };
 }
 
 export function createTaskForAdd(title, dateObj, displayTime) {
-  return { title, dueDateTime: dateObj, done: false, displayTime };
+  return {
+    title,
+    dueDateTime: dateObj,
+    done: false,
+    displayTime,
+    active: 0,
+  };
 }
 
 export async function bulkDeleteTasks(arr) {
