@@ -26,6 +26,9 @@ function App() {
   const longRestSeconds = useLiveQuery(() =>
     Storage.getSetting(Storage.settingsKey.longRestDuration)
   );
+  const activeTask = useLiveQuery(() =>
+    Storage.getActiveTask().then((item) => item?.title)
+  );
   const [prevSettings, setPrevSettings] = useState({});
   const [isTimerRunning, setTimerRunning] = useState(false);
   const [prevSessionNumber, setPrevSessionNumber] = useState(1);
@@ -110,6 +113,15 @@ function App() {
             : longRestSeconds
         }
       />
+      {activeTask ? (
+        <p className="text-center fw-bold text-light-black fs-2">
+          {activeTask}
+        </p>
+      ) : (
+        <p className="text-center fst-italic text-muted fs-4">
+          Select a task to work on in task panel
+        </p>
+      )}
       <TimerControlButtons
         isTimerRunning={isTimerRunning}
         onStartBtn={startClock}

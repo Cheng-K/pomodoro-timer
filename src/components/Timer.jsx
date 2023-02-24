@@ -31,7 +31,6 @@ function Timer({ isWorkingSession, currentSeconds, totalSeconds }) {
           </text>
         </g>
       </svg>
-      <p className="text-center fw-bold text-light-black fs-2">Programming</p>
     </Container>
   );
 }
