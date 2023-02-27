@@ -46,7 +46,7 @@ function AddTaskModal({ show, handleClose, onAdd }) {
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Form.Group controlId="formTaskName" className="mb-3">
+          <Form.Group controlId="addFormTitle" className="mb-3">
             <Form.Label>Task Name</Form.Label>
             <Form.Control
               type="text"
@@ -54,16 +54,18 @@ function AddTaskModal({ show, handleClose, onAdd }) {
               required
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              maxLength={40}
               data-cy="add-task-title-input"
             />
             <Form.Control.Feedback
               type="invalid"
               data-cy="add-task-title-input-invalid-feedback"
             >
-              Please enter a name for the task.
+              Please provide a valid name for the task. It can have a maximum of
+              40 characters.
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId="formDueDate" className="mb-3">
+          <Form.Group controlId="addFormDueDate" className="mb-3">
             <Form.Label>Due Date</Form.Label>
             <Form.Control
               type="date"
@@ -81,7 +83,7 @@ function AddTaskModal({ show, handleClose, onAdd }) {
               31/12/9999
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId="formDueTime" className="mb-3">
+          <Form.Group controlId="addFormDueTime" className="mb-3">
             <Form.Label>Due Time</Form.Label>
             <Form.Control
               type="time"

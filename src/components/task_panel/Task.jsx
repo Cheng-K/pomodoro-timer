@@ -78,7 +78,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
           onSubmit={onEditFinish}
         >
           <Row>
-            <Form.Group controlId="formTitle" as={Col}>
+            <Form.Group controlId="editFormTitle" as={Col}>
               <Form.Control
                 type="text"
                 value={title}
@@ -86,13 +86,14 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                 onChange={(newValue) => setTitle(newValue.target.value)}
                 placeholder="Enter task name"
                 disabled={!isEditing}
+                maxLength={40}
                 data-cy="edit-task-title-input"
               />
               <Form.Control.Feedback
                 type="invalid"
                 data-cy="edit-task-title-invalid-feedback"
               >
-                Please enter a name for the task.
+                Please provide a valid name for the task. Max: 40 characters.
               </Form.Control.Feedback>
             </Form.Group>
             <Col xs={2}>
@@ -108,7 +109,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
           </Row>
 
           <Row className="mt-2">
-            <Form.Group controlId="formDueDate" as={Col}>
+            <Form.Group controlId="editFormDueDate" as={Col}>
               <Form.Control
                 type="date"
                 value={date}
@@ -128,7 +129,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                 Please enter a valid due date for the task.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="formDueTime" as={Col}>
+            <Form.Group controlId="editFormDueTime" as={Col}>
               <Form.Control
                 type="time"
                 value={time}
