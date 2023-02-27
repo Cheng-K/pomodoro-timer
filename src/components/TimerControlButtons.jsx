@@ -11,6 +11,8 @@ function TimerControlButtons({
   onPauseBtn,
   onStartBtn,
   onSkipBtn,
+  currentSeconds,
+  totalSeconds,
 }) {
   return (
     <Container
@@ -24,7 +26,7 @@ function TimerControlButtons({
         <RestartButton
           className="mx-3 flip"
           onClick={onRestartBtn}
-          disabled={!isTimerRunning}
+          disabled={currentSeconds === totalSeconds}
           data-cy="restart-btn"
         />
         {isTimerRunning ? (

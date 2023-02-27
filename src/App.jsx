@@ -137,6 +137,14 @@ function App() {
           setClockBasedOnSession();
         }}
         onSkipBtn={onFinish}
+        currentSeconds={currentSeconds}
+        totalSeconds={
+          sessionNumber % 2 !== 0
+            ? workSeconds
+            : sessionNumber !== maxSession
+            ? shortRestSeconds
+            : longRestSeconds
+        }
       />
       <Footer
         currentSession={Math.ceil(sessionNumber / 2)}
