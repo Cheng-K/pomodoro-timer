@@ -1,10 +1,11 @@
 import { Button } from "react-bootstrap";
 import { MdMenu } from "react-icons/md";
-function TaskButton({ className = "", iconStyle = "", onClick }) {
+function TaskButton({ onClick, className = "", iconStyle = "", ...props }) {
   return (
     <Button
       className={`control-button  d-flex justify-content-center align-items-center ${className}`}
       onClick={onClick}
+      {...props}
     >
       <MdMenu className={`icon ${iconStyle}`} />
     </Button>

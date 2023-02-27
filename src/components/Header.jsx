@@ -16,14 +16,15 @@ function Header({
       <Row className="p-3">
         <Col className="d-flex justify-content-start align-items-center" xs={2}>
           <TaskButton
+            data-cy="task-btn"
             className="control-button-small show-text"
             iconStyle="icon-small icon-black"
             onClick={taskButtonOnClick}
           />
-          <span>Show Tasks</span>
+          <span data-cy="task-btn-tooltip">Show Tasks</span>
         </Col>
         <Col className="col">
-          <h1 className="text-center fs-2 fw-bold">
+          <h1 className="text-center fs-2 fw-bold" data-cy="header-title">
             {isWorkingSession ? "Stay focused" : "Take a break"}
           </h1>
         </Col>
@@ -32,12 +33,15 @@ function Header({
           xs={2}
         >
           <SettingsButton
+            data-cy="settings-btn"
             className="control-button-small show-text"
             iconStyle="icon-small icon-black"
             onClick={settingsButtonOnClick}
             disabled={isTimerRunning}
           />
-          <span className="text-end">Settings</span>
+          <span className="text-end" data-cy="settings-btn-tooltip">
+            Settings
+          </span>
         </Col>
       </Row>
     </Container>

@@ -1,10 +1,10 @@
 import { Button } from "react-bootstrap";
 import { MdAdd } from "react-icons/md";
 import AppTooltip from "../AppTooltip";
-function AddButton({ className = "", iconStyle = "", onClick }) {
+function AddButton({ onClick, ...props }) {
   return (
     <AppTooltip text="Add Task">
-      <Button onClick={onClick} variant="secondary">
+      <Button onClick={onClick} variant="secondary" {...props}>
         <MdAdd size="2rem" className="icon-black" />
       </Button>
     </AppTooltip>

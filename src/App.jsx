@@ -114,11 +114,17 @@ function App() {
         }
       />
       {activeTask ? (
-        <p className="text-center fw-bold text-light-black fs-2">
+        <p
+          className="text-center fw-bold text-light-black fs-2"
+          data-cy="active-task"
+        >
           {activeTask}
         </p>
       ) : (
-        <p className="text-center fst-italic text-muted fs-4">
+        <p
+          className="text-center fst-italic text-muted fs-4"
+          data-cy="active-task-placeholder"
+        >
           Select a task to work on in task panel
         </p>
       )}

@@ -68,6 +68,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
     <Container
       fluid
       className={`d-flex justify-content-between align-items-center ${props.className}`}
+      data-cy="task-container"
     >
       {editMode ? (
         <Form
@@ -85,16 +86,23 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                 onChange={(newValue) => setTitle(newValue.target.value)}
                 placeholder="Enter task name"
                 disabled={!isEditing}
+                data-cy="edit-task-title-input"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback
+                type="invalid"
+                data-cy="edit-task-title-invalid-feedback"
+              >
                 Please enter a name for the task.
               </Form.Control.Feedback>
             </Form.Group>
             <Col xs={2}>
               {isEditing ? (
-                <DoneButton type="submit" />
+                <DoneButton type="submit" data-cy="edit-task-submit-btn" />
               ) : (
-                <EditButton onClick={toggleEditing} />
+                <EditButton
+                  onClick={toggleEditing}
+                  data-cy="edit-task-edit-btn"
+                />
               )}
             </Col>
           </Row>
@@ -111,8 +119,12 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                 disabled={!isEditing}
                 max="9999-12-31"
                 min="2023-01-01"
+                data-cy="edit-task-calendar-input"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback
+                type="invalid"
+                data-cy="edit-task-calendar-invalid-feedback"
+              >
                 Please enter a valid due date for the task.
               </Form.Control.Feedback>
             </Form.Group>
@@ -124,13 +136,20 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                   setTime(newValue.target.value);
                 }}
                 disabled={!isEditing || date === ""}
+                data-cy="edit-task-time-input"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback
+                type="invalid"
+                data-cy="edit-task-time-invalid-feedback"
+              >
                 Please enter a valid due time for the task.
               </Form.Control.Feedback>
             </Form.Group>
             <Col xs={2}>
-              <DeleteButton onClick={() => onDelete(props.id)} />
+              <DeleteButton
+                onClick={() => onDelete(props.id)}
+                data-cy="edit-task-delete-btn"
+              />
             </Col>
           </Row>
         </Form>
@@ -141,6 +160,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
               className={
                 isDone ? `text-muted text-decoration-line-through` : ``
               }
+              data-cy="task-title-label"
             >
               {title}
             </h5>
@@ -157,6 +177,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                         ? `text-muted text-decoration-line-through me-3`
                         : `me-3`
                     }
+                    data-cy="task-calendar-label"
                   >
                     {date}
                   </span>
@@ -169,6 +190,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                     className={
                       isDone ? `text-muted text-decoration-line-through` : ``
                     }
+                    data-cy="task-time-label"
                   >
                     {time}
                   </span>
@@ -189,6 +211,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
                     ? () => props.onDeactivate()
                     : () => props.onActivate(props.id)
                 }
+                data-cy="working-pending-badge"
               ></Button>
             )}
           </div>
@@ -199,6 +222,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
             type="checkbox"
             checked={isDone}
             onChange={toggleIsDone}
+            data-cy="task-checkbox"
           />
         </>
       )}

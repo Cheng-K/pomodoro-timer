@@ -39,6 +39,7 @@ function AddTaskModal({ show, handleClose, onAdd }) {
       onHide={handleClose}
       onExited={resetForm}
       contentClassName="modal-bg"
+      data-cy="add-task-modal"
     >
       <Modal.Header closeButton>
         <Modal.Title>Add Task</Modal.Title>
@@ -53,8 +54,12 @@ function AddTaskModal({ show, handleClose, onAdd }) {
               required
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              data-cy="add-task-title-input"
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback
+              type="invalid"
+              data-cy="add-task-title-input-invalid-feedback"
+            >
               Please enter a name for the task.
             </Form.Control.Feedback>
           </Form.Group>
@@ -66,8 +71,12 @@ function AddTaskModal({ show, handleClose, onAdd }) {
               onChange={(event) => setDate(event.target.value)}
               max="9999-12-31"
               min="2023-01-01"
+              data-cy="add-task-calendar-input"
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback
+              type="invalid"
+              data-cy="add-task-calendar-input-invalid-feedback"
+            >
               Please enter a valid due date for the task. Min: 01/01/2023 | Max:
               31/12/9999
             </Form.Control.Feedback>
@@ -79,8 +88,12 @@ function AddTaskModal({ show, handleClose, onAdd }) {
               value={time}
               onChange={(event) => setTime(event.target.value)}
               disabled={date === ""}
+              data-cy="add-task-time-input"
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback
+              type="invalid"
+              data-cy="add-task-time-input-invalid-feedback"
+            >
               Please enter a valid due time for the task.
             </Form.Control.Feedback>
           </Form.Group>
@@ -88,6 +101,7 @@ function AddTaskModal({ show, handleClose, onAdd }) {
             variant="danger"
             type="submit"
             className="d-block ms-auto mt-4"
+            data-cy="add-task-submit-btn"
           >
             <span className="white-text fw-semibold">Submit</span>
           </Button>

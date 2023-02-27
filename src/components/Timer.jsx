@@ -10,6 +10,7 @@ function Timer({ isWorkingSession, currentSeconds, totalSeconds }) {
             cy="5"
             r="4"
             className="timer-progress timer-progress-bg"
+            data-cy="timer-background-border"
           />
           <circle
             cx="5"
@@ -19,8 +20,15 @@ function Timer({ isWorkingSession, currentSeconds, totalSeconds }) {
               isWorkingSession ? "" : "timer-progress-rest"
             }`}
             strokeDasharray={`${(currentSeconds / totalSeconds) * 25.2} 26`}
+            data-cy="timer-progress-border"
           />
-          <text x="33%" y="55%" fontSize="1.2px" fontWeight="bolder">
+          <text
+            x="33%"
+            y="55%"
+            fontSize="1.2px"
+            data-cy="timer-label"
+            fontWeight="bolder"
+          >
             {`${Math.floor(currentSeconds / 60).toLocaleString("en-US", {
               minimumIntegerDigits: 2,
               useGrouping: false,

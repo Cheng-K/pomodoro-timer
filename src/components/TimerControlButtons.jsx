@@ -25,13 +25,22 @@ function TimerControlButtons({
           className="mx-3 flip"
           onClick={onRestartBtn}
           disabled={!isTimerRunning}
+          data-cy="restart-btn"
         />
         {isTimerRunning ? (
-          <PauseButton className="mx-3" onClick={onPauseBtn} />
+          <PauseButton
+            className="mx-3"
+            onClick={onPauseBtn}
+            data-cy="pause-btn"
+          />
         ) : (
-          <PlayButton className="mx-3" onClick={onStartBtn} />
+          <PlayButton
+            className="mx-3"
+            onClick={onStartBtn}
+            data-cy="play-btn"
+          />
         )}
-        <SkipButton className="mx-3" onClick={onSkipBtn} />
+        <SkipButton className="mx-3" onClick={onSkipBtn} data-cy="skip-btn" />
       </ButtonGroup>
     </Container>
   );

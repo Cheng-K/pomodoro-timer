@@ -1,10 +1,10 @@
 import { Button } from "react-bootstrap";
 import { MdDeleteForever } from "react-icons/md";
 import AppTooltip from "../AppTooltip";
-function DeleteAllButton({ className = "", iconStyle = "", onClick }) {
+function DeleteAllButton({ onClick, ...props }) {
   return (
     <AppTooltip text="Delete All Showing Tasks">
-      <Button onClick={onClick} variant="secondary">
+      <Button onClick={onClick} variant="secondary" {...props}>
         <MdDeleteForever size="2rem" className="icon-black" />
       </Button>
     </AppTooltip>

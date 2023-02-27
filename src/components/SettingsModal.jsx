@@ -38,6 +38,7 @@ function SettingsModal({ show, handleClose, onUpdate, ...props }) {
         setInputLongRestMins(props.currentLongRestSeconds / 60);
         setInputSessionNumber(Math.ceil(props.currentMaxSession / 2));
       }}
+      data-cy="settings-modal"
     >
       <Modal.Header closeButton>
         <Modal.Title>Settings</Modal.Title>
@@ -54,6 +55,7 @@ function SettingsModal({ show, handleClose, onUpdate, ...props }) {
             className="mb-3"
             invalidMsg="Please provide a valid numeric input. Value must be between 25 to 60 mins"
             required={true}
+            data-cy="settings-work-mins"
           />
           <SettingInput
             value={inputShortRestMins}
@@ -65,6 +67,7 @@ function SettingsModal({ show, handleClose, onUpdate, ...props }) {
             className="mb-3"
             invalidMsg="Please provide a valid numeric input. Value must be between 3 to 5 mins"
             required={true}
+            data-cy="settings-shortbreak-mins"
           />
           <SettingInput
             value={inputLongRestMins}
@@ -76,6 +79,7 @@ function SettingsModal({ show, handleClose, onUpdate, ...props }) {
             className="mb-3"
             invalidMsg="Please provide a valid numeric input. Value must be between 10 to 30 mins"
             required={true}
+            data-cy="settings-longbreak-mins"
           />
           <SettingInput
             value={inputSessionNumber}
@@ -87,8 +91,14 @@ function SettingsModal({ show, handleClose, onUpdate, ...props }) {
             className="mb-5"
             invalidMsg="Please provide a valid numeric input. Value must be between 4 to 8 sessions"
             required={true}
+            data-cy="settings-session"
           />
-          <Button variant="danger" type="submit" className="d-block ms-auto">
+          <Button
+            variant="danger"
+            type="submit"
+            className="d-block ms-auto"
+            data-cy="settings-submit-btn"
+          >
             <span className="white-text fw-semibold">Save Changes</span>
           </Button>
         </Form>

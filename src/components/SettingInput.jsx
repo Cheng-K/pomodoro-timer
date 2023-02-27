@@ -27,8 +27,12 @@ function SettingInput({
           value={value}
           onChange={onValueChange}
           required={required}
+          data-cy={props["data-cy"] + "-input"}
         />
-        <Form.Control.Feedback type="invalid">
+        <Form.Control.Feedback
+          type="invalid"
+          data-cy={props["data-cy"] + "-input-invalid-feedback"}
+        >
           {invalidMsg}
         </Form.Control.Feedback>
       </Col>

@@ -18,8 +18,12 @@ function Footer({
           iconStyle="icon-small icon-black"
           onClick={onRestartSession}
           disabled={isTimerRunning}
+          data-cy="session-restart-btn"
         />
-        <p className="fs-4 mb-0 ps-1 fw-semibold">{`Session ${currentSession}/${maxSession}`}</p>
+        <p
+          className="fs-4 mb-0 ps-1 fw-semibold"
+          data-cy="session-label"
+        >{`Session ${currentSession}/${maxSession}`}</p>
       </Container>
     </Container>
   );

@@ -89,6 +89,7 @@ function TaskPanel({ show, handleClose, ...props }) {
         onHide={handleClose}
         {...props}
         onExited={() => setInEditMode(false)}
+        data-cy="task-panel-container"
       >
         <Offcanvas.Header>
           <Offcanvas.Title>
@@ -97,8 +98,13 @@ function TaskPanel({ show, handleClose, ...props }) {
           <div>
             {inEditMode ? (
               <>
-                <EditButton onClick={() => setInEditMode(false)} offVariant />
+                <EditButton
+                  onClick={() => setInEditMode(false)}
+                  offVariant
+                  data-cy="task-panel-edit-btn"
+                />
                 <DeleteAllButton
+                  data-cy="task-panel-delete-all-btn"
                   className="me-3"
                   onClick={() => {
                     let array1 = Storage.reduceToPrimaryKey(notDoneTasks);
@@ -123,8 +129,12 @@ function TaskPanel({ show, handleClose, ...props }) {
               </>
             ) : (
               <>
-                <AddButton onClick={() => setAddModalShowing(true)} />
+                <AddButton
+                  onClick={() => setAddModalShowing(true)}
+                  data-cy="task-panel-add-btn"
+                />
                 <EditButton
+                  data-cy="task-panel-edit-btn"
                   className="me-3"
                   onClick={() => setInEditMode(true)}
                   tooltip="Edit Tasks"
@@ -134,8 +144,13 @@ function TaskPanel({ show, handleClose, ...props }) {
             <VisibilityButton
               offVariant={isShowingFinishedTasks}
               onClick={() => setIsShowingFinishedTasks((current) => !current)}
+              data-cy="task-panel-visibility-btn"
             />
-            <CloseButton className="me-1" onClick={handleClose} />
+            <CloseButton
+              className="me-1"
+              onClick={handleClose}
+              data-cy="task-panel-close-btn"
+            />
           </div>
         </Offcanvas.Header>
         <Offcanvas.Body>
