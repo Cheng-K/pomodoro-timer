@@ -109,43 +109,47 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
           </Row>
 
           <Row className="mt-2">
-            <Form.Group controlId="editFormDueDate" as={Col}>
-              <Form.Control
-                type="date"
-                value={date}
-                onChange={(newValue) => {
-                  if (newValue.target.value === "") setTime("");
-                  setDate(newValue.target.value);
-                }}
-                disabled={!isEditing}
-                max="9999-12-31"
-                min="2023-01-01"
-                data-cy="edit-task-calendar-input"
-              />
-              <Form.Control.Feedback
-                type="invalid"
-                data-cy="edit-task-calendar-invalid-feedback"
-              >
-                Please enter a valid due date for the task.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="editFormDueTime" as={Col}>
-              <Form.Control
-                type="time"
-                value={time}
-                onChange={(newValue) => {
-                  setTime(newValue.target.value);
-                }}
-                disabled={!isEditing || date === ""}
-                data-cy="edit-task-time-input"
-              />
-              <Form.Control.Feedback
-                type="invalid"
-                data-cy="edit-task-time-invalid-feedback"
-              >
-                Please enter a valid due time for the task.
-              </Form.Control.Feedback>
-            </Form.Group>
+            <Col xs={10}>
+              <Row>
+                <Form.Group controlId="editFormDueDate" as={Col}>
+                  <Form.Control
+                    type="date"
+                    value={date}
+                    onChange={(newValue) => {
+                      if (newValue.target.value === "") setTime("");
+                      setDate(newValue.target.value);
+                    }}
+                    disabled={!isEditing}
+                    max="9999-12-31"
+                    min="2023-01-01"
+                    data-cy="edit-task-calendar-input"
+                  />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    data-cy="edit-task-calendar-invalid-feedback"
+                  >
+                    Please enter a valid due date for the task.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="editFormDueTime" as={Col}>
+                  <Form.Control
+                    type="time"
+                    value={time}
+                    onChange={(newValue) => {
+                      setTime(newValue.target.value);
+                    }}
+                    disabled={!isEditing || date === ""}
+                    data-cy="edit-task-time-input"
+                  />
+                  <Form.Control.Feedback
+                    type="invalid"
+                    data-cy="edit-task-time-invalid-feedback"
+                  >
+                    Please enter a valid due time for the task.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+            </Col>
             <Col xs={2}>
               <DeleteButton
                 onClick={() => onDelete(props.id)}
@@ -165,7 +169,7 @@ function Task({ editMode, onUpdate, onDelete, ...props }) {
             >
               {title}
             </h5>
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center mb-1">
               {date && (
                 <>
                   <MdCalendarToday

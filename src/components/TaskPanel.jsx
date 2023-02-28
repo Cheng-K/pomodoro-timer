@@ -105,7 +105,6 @@ function TaskPanel({ show, handleClose, ...props }) {
                 />
                 <DeleteAllButton
                   data-cy="task-panel-delete-all-btn"
-                  className="me-3"
                   onClick={() => {
                     let array1 = Storage.reduceToPrimaryKey(notDoneTasks);
                     let array2 = null;
@@ -135,7 +134,6 @@ function TaskPanel({ show, handleClose, ...props }) {
                 />
                 <EditButton
                   data-cy="task-panel-edit-btn"
-                  className="me-3"
                   onClick={() => setInEditMode(true)}
                   tooltip="Edit Tasks"
                 />

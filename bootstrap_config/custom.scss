@@ -14,6 +14,7 @@ $dark: #212121;
 $body-bg: $primary;
 $font-family-base: "Inter";
 $input-bg: #ffffff;
+$offcanvas-horizontal-width: 455px;
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../node_modules/bootstrap/scss/variables";
