@@ -57,7 +57,6 @@ describe("Add task modal", () => {
       );
   });
   it("Should accept a submission with title only", () => {
-    let taskDisplayed = false;
     cy.get('[data-cy="add-task-title-input"]').type("A simple task");
     cy.get('[data-cy="add-task-submit-btn"]').click();
     cy.get('[data-cy="add-task-modal"]')
