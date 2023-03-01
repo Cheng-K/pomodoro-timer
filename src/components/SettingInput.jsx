@@ -16,7 +16,7 @@ function SettingInput({
 }) {
   return (
     <Form.Group controlId={controlId} as={Row} className={props.className}>
-      <Form.Label column md={9} xs={12}>
+      <Form.Label column md={9} xs={12} data-cy={props["data-cy"] + "-label"}>
         {text}
       </Form.Label>
       <Col md={3} xs="auto">
