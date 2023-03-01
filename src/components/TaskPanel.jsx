@@ -92,7 +92,7 @@ function TaskPanel({ show, handleClose, ...props }) {
         data-cy="task-panel-container"
       >
         <Offcanvas.Header>
-          <Offcanvas.Title>
+          <Offcanvas.Title data-cy="task-panel-title-label">
             {inEditMode ? "Edit Tasks" : "Tasks"}
           </Offcanvas.Title>
           <div>
