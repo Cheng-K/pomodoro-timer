@@ -65,7 +65,7 @@ function SettingsModal({ show, handleClose, onUpdate, ...props }) {
             minValue={5}
             maxValue={10}
             className="mb-3"
-            invalidMsg="Please provide a valid numeric input. Value must be between 3 to 5 mins"
+            invalidMsg="Please provide a valid numeric input. Value must be between 5 to 10 mins"
             required={true}
             data-cy="settings-shortbreak-mins"
           />
@@ -77,14 +77,14 @@ function SettingsModal({ show, handleClose, onUpdate, ...props }) {
             minValue={15}
             maxValue={30}
             className="mb-3"
-            invalidMsg="Please provide a valid numeric input. Value must be between 10 to 30 mins"
+            invalidMsg="Please provide a valid numeric input. Value must be between 15 to 30 mins"
             required={true}
             data-cy="settings-longbreak-mins"
           />
           <SettingInput
             value={inputSessionNumber}
             onValueChange={(event) => setInputSessionNumber(event.target.value)}
-            text="Number of sessions to long break (mins)"
+            text="Number of sessions to long break"
             controlId="formGroupSessionsNumber"
             minValue={4}
             maxValue={8}
