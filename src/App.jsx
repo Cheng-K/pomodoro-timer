@@ -10,6 +10,8 @@ import SettingsModal from "./components/SettingsModal";
 import useInterval from "./hooks/useInterval";
 import { useLiveQuery } from "dexie-react-hooks";
 import * as Storage from "./utilities/database.js";
+import pomodoroFavicon from "./assets/pomodoro.png";
+import pomodoroRestFavicon from "./assets/pomodoro-rest.png";
 
 function App() {
   const maxSession = useLiveQuery(() =>
@@ -67,7 +69,23 @@ function App() {
         new Audio(onFinishRingtoneUrl).play();
       }, 300);
     }
-  }, [currentSeconds]);
+    document.title = `${Math.floor(currentSeconds / 60).toLocaleString(
+      "en-US",
+      {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      }
+    )}:${(currentSeconds % 60).toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    })} ${activeTask ? `| ${activeTask}` : ""}`;
+  }, [currentSeconds, activeTask]);
+
+  useEffect(() => {
+    const link = document.querySelector("link[rel~='icon']");
+    if (sessionNumber % 2 == 0) link.href = pomodoroRestFavicon;
+    else link.href = pomodoroFavicon;
+  }, [sessionNumber]);
 
   if (!maxSession || !workSeconds || !shortRestSeconds || !longRestSeconds)
     return <></>;
