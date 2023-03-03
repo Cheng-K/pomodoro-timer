@@ -1,6 +1,10 @@
 /// <reference types="Cypress" />
 
 describe("Home view on load", () => {
+  before(() => {
+    cy.visit("http://localhost:5173");
+    indexedDB.deleteDatabase("PomodoroDatabase");
+  });
   beforeEach(() => {
     cy.visit("http://localhost:5173");
   });
@@ -48,10 +52,12 @@ describe("Home view on load", () => {
 describe("Timer", () => {
   beforeEach(() => cy.visit("http://localhost:5173"));
   it("Should update timer label and control buttons when started", () => {
+    cy.title().should("eq", "25:00");
     cy.get('[data-cy="play-btn"]').click().should("not.exist");
     cy.get('[data-cy="pause-btn"]').should("be.visible");
     cy.wait(1000);
     cy.get('[data-cy="timer-label"]').should("have.text", "24:59");
+    cy.title().should("eq", "24:59");
     cy.wait(5000);
     cy.get('[data-cy="timer-progress-border"]')
       .invoke("attr", "stroke-dasharray")
@@ -77,6 +83,7 @@ describe("Timer", () => {
       });
     cy.wait(2000);
     cy.get('[data-cy="timer-label"]').should("have.text", "24:57");
+    cy.title().should("eq", "24:57");
     cy.get('[data-cy="timer-progress-border"]')
       .invoke("attr", "stroke-dasharray")
       .then((value) => {
@@ -92,6 +99,7 @@ describe("Timer", () => {
     cy.get('[data-cy="pause-btn"]').should("not.exist");
     cy.get('[data-cy="play-btn"]').should("be.visible");
     cy.get('[data-cy="timer-label"]').should("have.text", "25:00");
+    cy.title().should("eq", "25:00");
     cy.get('[data-cy="timer-progress-border"]')
       .invoke("attr", "stroke-dasharray")
       .then((value) => {
@@ -109,6 +117,7 @@ describe("Timer", () => {
     cy.get('[data-cy="pause-btn"]').should("not.exist");
     cy.get('[data-cy="play-btn"]').should("be.visible");
     cy.get('[data-cy="timer-label"]').should("have.text", "05:00");
+    cy.title().should("eq", "05:00");
     cy.get('[data-cy="timer-progress-border"]')
       .should("have.css", "stroke", "rgb(69, 123, 157)")
       .invoke("attr", "stroke-dasharray")
@@ -158,24 +167,18 @@ describe("Sessions", () => {
     cy.get('[data-cy="session-label"]').should("have.text", "Session 1/4");
   });
   it("Should increment on every two skip", () => {
-    cy.get('[data-cy="skip-btn"]').click();
-    cy.get('[data-cy="header-title"]').should("have.text", "Take a break");
-    cy.get('[data-cy="skip-btn"]').click();
-    cy.get('[data-cy="header-title"]').should("have.text", "Stay focused");
-    cy.get('[data-cy="session-label"]').should("have.text", "Session 2/4");
-    cy.get('[data-cy="skip-btn"]').click();
-    cy.get('[data-cy="header-title"]').should("have.text", "Take a break");
-    cy.get('[data-cy="skip-btn"]').click();
-    cy.get('[data-cy="header-title"]').should("have.text", "Stay focused");
-    cy.get('[data-cy="session-label"]').should("have.text", "Session 3/4");
-    cy.get('[data-cy="skip-btn"]').click();
-    cy.get('[data-cy="header-title"]').should("have.text", "Take a break");
-    cy.get('[data-cy="skip-btn"]').click();
-    cy.get('[data-cy="header-title"]').should("have.text", "Stay focused");
-    cy.get('[data-cy="session-label"]').should("have.text", "Session 4/4");
-    cy.get('[data-cy="skip-btn"]').click();
-    cy.get('[data-cy="header-title"]').should("have.text", "Take a break");
-    cy.get('[data-cy="skip-btn"]').click();
+    for (let i = 1; i <= 7; i += 2) {
+      cy.get('[data-cy="header-title"]').should("have.text", "Stay focused");
+      cy.get('[data-cy="session-label"]').should(
+        "have.text",
+        `Session ${Math.ceil(i / 2)}/4`
+      );
+      cy.title().should("eq", "25:00");
+      cy.get('[data-cy="skip-btn"]').click();
+      cy.get('[data-cy="header-title"]').should("have.text", "Take a break");
+      cy.title().should("eq", i < 7 ? "05:00" : "15:00");
+      cy.get('[data-cy="skip-btn"]').click();
+    }
     cy.get('[data-cy="header-title"]').should("have.text", "Stay focused");
     cy.get('[data-cy="session-label"]').should("have.text", "Session 1/4");
   });
