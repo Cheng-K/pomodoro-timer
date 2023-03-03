@@ -8,9 +8,9 @@ function VisibilityButton({ onClick, offVariant = false, ...props }) {
     >
       <Button onClick={onClick} variant="secondary" {...props}>
         {offVariant ? (
-          <MdVisibilityOff size="2rem" className="icon-black" />
+          <MdVisibilityOff size="32px" className="icon-black" />
         ) : (
-          <MdVisibility size="2rem" className="icon-black" />
+          <MdVisibility size="32px" className="icon-black" />
         )}
       </Button>
     </AppTooltip>

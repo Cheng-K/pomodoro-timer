@@ -5,7 +5,7 @@ function AddButton({ onClick, ...props }) {
   return (
     <AppTooltip text="Add Task">
       <Button onClick={onClick} variant="secondary" {...props}>
-        <MdAdd size="2rem" className="icon-black" />
+        <MdAdd size="32px" className="icon-black" />
       </Button>
     </AppTooltip>
   );

@@ -5,7 +5,7 @@ function DoneButton({ className = "", iconStyle = "", onClick, ...props }) {
   return (
     <AppTooltip text="Done Editing">
       <Button onClick={onClick} variant="secondary" {...props}>
-        <MdDone size="2rem" className="icon-black" />
+        <MdDone size="32px" className="icon-black" />
       </Button>
     </AppTooltip>
   );

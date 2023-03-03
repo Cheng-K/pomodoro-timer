@@ -5,7 +5,7 @@ function DeleteButton({ onClick, ...props }) {
   return (
     <AppTooltip text="Delete Task">
       <Button onClick={onClick} variant="secondary" {...props}>
-        <MdDelete size="2rem" className="icon-black" />
+        <MdDelete size="32px" className="icon-black" />
       </Button>
     </AppTooltip>
   );

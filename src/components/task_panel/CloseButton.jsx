@@ -5,7 +5,7 @@ function CloseButton({ onClick, ...props }) {
   return (
     <AppTooltip text="Close Tasks List">
       <Button onClick={onClick} variant="secondary" {...props}>
-        <MdClose size="2rem" className="icon-black" />
+        <MdClose size="32px" className="icon-black" />
       </Button>
     </AppTooltip>
   );

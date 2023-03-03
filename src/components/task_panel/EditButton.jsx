@@ -11,9 +11,9 @@ function EditButton({
     <AppTooltip text={offVariant ? "Exit Editing" : tooltip}>
       <Button onClick={onClick} variant="secondary" {...props}>
         {offVariant ? (
-          <MdEditOff size="2rem" className="icon-black" />
+          <MdEditOff size="32px" className="icon-black" />
         ) : (
-          <MdEdit size="2rem" className="icon-black" />
+          <MdEdit size="32px" className="icon-black" />
         )}
       </Button>
     </AppTooltip>

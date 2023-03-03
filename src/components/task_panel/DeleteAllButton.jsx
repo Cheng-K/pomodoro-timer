@@ -5,7 +5,7 @@ function DeleteAllButton({ onClick, ...props }) {
   return (
     <AppTooltip text="Delete All Showing Tasks">
       <Button onClick={onClick} variant="secondary" {...props}>
-        <MdDeleteForever size="2rem" className="icon-black" />
+        <MdDeleteForever size="32px" className="icon-black" />
       </Button>
     </AppTooltip>
   );
