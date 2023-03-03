@@ -159,4 +159,10 @@ describe("Settings", () => {
     );
     cy.get('[data-cy="settings-session-input"]').should("have.value", 6);
   });
+  it("Should be disabled when timer is running", () => {
+    cy.get('[data-cy="settings-modal"]').find(".btn-close").click();
+    cy.get('[data-cy="settings-modal"]').should("not.exist");
+    cy.get('[data-cy="play-btn"]').click();
+    cy.get('[data-cy="settings-btn"]').should("be.disabled");
+  });
 });
