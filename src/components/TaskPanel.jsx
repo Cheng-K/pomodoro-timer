@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import * as Storage from "../utilities/database";
 import AddTaskModal from "./AddTaskModal";
+import DeleteTaskModal from "./DeleteTaskModal";
 import AddButton from "./task_panel/AddButton";
 import CloseButton from "./task_panel/CloseButton";
 import DeleteAllButton from "./task_panel/DeleteAllButton";
@@ -14,6 +15,7 @@ import VisibilityButton from "./task_panel/VisibilityButton";
 function TaskPanel({ show, handleClose, ...props }) {
   const [inEditMode, setInEditMode] = useState(false);
   const [addModalShowing, setAddModalShowing] = useState(false);
+  const [deleteAllModalShowing, setDeleteAllModalShowing] = useState(false);
   const [isShowingFinishedTasks, setIsShowingFinishedTasks] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState(undefined);
   const notDoneTasks = useLiveQuery(Storage.getAllNotDoneTask);
@@ -87,9 +89,11 @@ function TaskPanel({ show, handleClose, ...props }) {
       <Offcanvas
         show={show}
         onHide={handleClose}
-        {...props}
         onExited={() => setInEditMode(false)}
         data-cy="task-panel-container"
+        className={
+          inEditMode ? `${props.className} edit-mode-size` : props.className
+        }
       >
         <Offcanvas.Header>
           <Offcanvas.Title data-cy="task-panel-title-label">
@@ -105,25 +109,7 @@ function TaskPanel({ show, handleClose, ...props }) {
                 />
                 <DeleteAllButton
                   data-cy="task-panel-delete-all-btn"
-                  onClick={() => {
-                    let array1 = Storage.reduceToPrimaryKey(notDoneTasks);
-                    let array2 = null;
-                    if (isShowingFinishedTasks)
-                      array2 = Storage.reduceToPrimaryKey(doneTasks);
-                    Storage.db
-                      .transaction("rw", Storage.db.tasks, () => {
-                        if (isShowingFinishedTasks)
-                          return Promise.all([
-                            Storage.bulkDeleteTasks(array1),
-                            Storage.bulkDeleteTasks(array2),
-                          ]);
-                        return Storage.bulkDeleteTasks(array1);
-                      })
-                      .then(() => {
-                        console.log("Delete successful");
-                      })
-                      .catch((error) => console.log(error));
-                  }}
+                  onClick={() => setDeleteAllModalShowing(true)}
                 />
               </>
             ) : (
@@ -163,6 +149,28 @@ function TaskPanel({ show, handleClose, ...props }) {
         show={addModalShowing}
         handleClose={() => setAddModalShowing(false)}
         onAdd={async (newTask) => await Storage.addTask(newTask)}
+      />
+      <DeleteTaskModal
+        show={deleteAllModalShowing}
+        deleteTarget="all tasks"
+        handleClose={() => setDeleteAllModalShowing(false)}
+        onDelete={() => {
+          let array1 = Storage.reduceToPrimaryKey(notDoneTasks);
+          let array2 = null;
+          if (isShowingFinishedTasks)
+            array2 = Storage.reduceToPrimaryKey(doneTasks);
+          Storage.db
+            .transaction("rw", Storage.db.tasks, () => {
+              if (isShowingFinishedTasks)
+                return Promise.all([
+                  Storage.bulkDeleteTasks(array1),
+                  Storage.bulkDeleteTasks(array2),
+                ]);
+              return Storage.bulkDeleteTasks(array1);
+            })
+            .catch((error) => console.log(error));
+        }}
+        data-cy="delete-all-task-modal"
       />
     </>
   );
