@@ -20,6 +20,7 @@ function Header({
             className="control-button-small show-text"
             iconStyle="icon-small icon-black"
             onClick={taskButtonOnClick}
+            disabled={isTimerRunning}
           />
           <span data-cy="task-btn-tooltip">Show Tasks</span>
         </Col>
